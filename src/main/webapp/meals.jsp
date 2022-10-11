@@ -23,16 +23,23 @@
                 <td><p style="color:#00FF00">${meal.description}</p></td>
                 <td><p style="color:#00FF00">${meal.calories}</p></td>
                 <td>
-                    <form method="post" action="/topjava/meals/edit">
+                    <form method="post" action="/topjava/meals/update">
                         <input type="number" hidden name="id" value="${meal.id}" />
-                        <input type="submit" value="Update" name="update" />
+                        <label><input type="text" name="dateTimeStr"></label>Time<br>
+                        <label><input type="text" name="description"></label>Description<br>
+                        <label><input type="text" name="calories"></label>calories<br>
+                        <input type="submit" value="Ok" name="Ok"><br>
+                    </form>
+                    <form method="post" action="/topjava/meals/update">
+                        <input type="number" hidden name="id" value="${meal.id}" />
+                        <a href="update.jsp"><input type="submit" value="Update" name="update" /></a>
                     </form>
                 </td>
                 <td>
-                <form method="post" action="/topjava/meals/delete">
-                    <input type="number" hidden name="id" value="${meal.id}" />
-                    <input type="submit" value="Delete" name="delete" />
-                </form>
+                    <form method="post" action="/topjava/meals/delete">
+                        <input type="number" hidden name="id" value="${meal.id}" />
+                        <input type="submit" value="Delete" name="delete" />
+                    </form>
                 </td>
             </tr>
         </c:if>

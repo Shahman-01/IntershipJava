@@ -27,7 +27,9 @@ public class Utils {
 				id.matches("[+]?\\d+");
 	}
 
-//	public static boolean idIsValid(String id, List<Meal> meals) {
-//
-//	}
+	public static boolean idIsInvalid(String id, List<Meal> meals) {
+		return !(id != null &&
+				id.matches("[+]?\\d+") &&
+				meals.get(Integer.parseInt(id)) != null);
+	}
 }
