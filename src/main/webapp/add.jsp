@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Delete meal</title>
-    Meal Delete
+    <title>Add meal</title>
+    Add meal
 </head>
 <body>
 <h2>Create new meal</h2>
-<form method="post" action="/topjava/meals">
+<form method="post" action="/topjava/meals/add">
     <label><input type="text" name="dateTimeStr"></label>Time<br>
     <label><input type="text" name="description"></label>Description<br>
     <label><input type="text" name="calories"></label>calories<br>
