@@ -49,4 +49,21 @@ public class DeleteMeal extends HttpServlet {
 
 		resp.sendRedirect(req.getContextPath() + "/meals");
 	}
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		log.debug("doGet run");
+
+		int id = Integer.parseInt(req.getParameter("id"));
+
+		log.debug("id :" + id);
+
+		if (Utils.idIsInvalid(id + "", meals))
+			resp.sendRedirect(req.getContextPath() + "/meals");
+
+		final Meal meal = meals.get(id);
+		req.setAttribute("meal", meal);
+
+		doPost(req, resp);
+	}
 }

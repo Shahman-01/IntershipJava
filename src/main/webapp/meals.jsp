@@ -17,21 +17,15 @@
         <th></th>
         <th></th>
     </tr>
-    <c:forEach var="meal" items="${meals}">
+    <c:forEach items="${meals}" var="meal">
+        <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.MealTo"/>
         <c:if test="${meal.excess == false}">
             <tr bgcolor="#ffffff">
                 <td><p style="color:#008000">${meal.dateTimeStr}</p></td>
                 <td><p style="color:#008000">${meal.description}</p></td>
                 <td><p style="color:#008000">${meal.calories}</p></td>
-                <td>
-                    <a href="update.jsp?id=${meal.id}"><input type="submit" value="Update" name="update" /></a>
-                </td>
-                <td>
-                    <form method="post" action="/topjava/meals/delete">
-                        <input type="number" hidden name="id" value="${meal.id}" />
-                        <input type="submit" value="Delete" name="delete" />
-                    </form>
-                </td>
+                <td><a href="meals/update?id=${meal.id}&action=update">Update</a></td>
+                <td><a href="meals/delete?id=${meal.id}&action=delete">Delete</a></td>
             </tr>
         </c:if>
         <c:if test="${meal.excess == true}">
@@ -39,13 +33,8 @@
                 <td><p style="color:#FF0000">${meal.dateTimeStr}</p></td>
                 <td><p style="color:#FF0000">${meal.description}</p></td>
                 <td><p style="color:#FF0000">${meal.calories}</p></td>
-                <td><a href="update.html">Edit</a></td>
-                <td>
-                    <form method="post" action="/topjava/meals/delete">
-                        <input type="number" hidden name="id" value="${meal.id}" />
-                        <input type="submit" value="Delete" name="delete" />
-                    </form>
-                </td>
+                <td><a href="meals/update?id=${meal.id}&action=update">Update</a></td>
+                <td><a href="meals/delete?id=${meal.id}&action=delete">Delete</a></td>
             </tr>
         </c:if>
     </c:forEach>

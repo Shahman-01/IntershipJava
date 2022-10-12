@@ -39,19 +39,17 @@ public class UpdateMeal extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 
-		log.debug("url :" + req.getParameter("id"));
+		int id = Integer.parseInt(req.getParameter("id"));
 
-//		int id = Integer.parseInt(req.getParameter("id"));
+		log.debug("id :" + id);
+		LocalDateTime date = LocalDateTime.parse(req.getParameter("dateTimeStr"),
+				Utils.FORMATTER);
+		String descr = req.getParameter("description");
+		int calories = Integer.parseInt(req.getParameter("calories"));
 
-//		log.debug("id :" + id);
-//		LocalDateTime date = LocalDateTime.parse(req.getParameter("dateTimeStr"),
-//				Utils.FORMATTER);
-//		String descr = req.getParameter("description");
-//		int calories = Integer.parseInt(req.getParameter("calories"));
-//
-//		meals.get(id).setCalories(calories);
-//		meals.get(id).setDateTime(date);
-//		meals.get(id).setDescription(descr);
+		meals.get(id).setCalories(calories);
+		meals.get(id).setDateTime(date);
+		meals.get(id).setDescription(descr);
 
 		log.debug("meal Updated");
 
@@ -62,14 +60,16 @@ public class UpdateMeal extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		log.debug("doGet run");
 
-		String id = req.getParameter("id");
+		int id = Integer.parseInt(req.getParameter("id"));
 
-		if (Utils.idIsInvalid(id, meals))
+		log.debug("id :" + id);
+
+		if (Utils.idIsInvalid(id + "", meals))
 			resp.sendRedirect(req.getContextPath() + "/meals");
 
-		final Meal meal = meals.get(Integer.parseInt(id));
+		final Meal meal = meals.get(id);
 		req.setAttribute("meal", meal);
 
-		req.getRequestDispatcher("update.jsp").forward(req, resp);
+		req.getRequestDispatcher("/update.jsp").forward(req, resp);
 	}
 }
