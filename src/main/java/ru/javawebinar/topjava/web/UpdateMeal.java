@@ -39,16 +39,19 @@ public class UpdateMeal extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 
-		int id = 1;//Integer.parseInt(req.getParameter("id"));
-		log.debug("id :" + id);
-		LocalDateTime date = LocalDateTime.parse(req.getParameter("dateTimeStr"),
-				Utils.FORMATTER);
-		String descr = req.getParameter("description");
-		int calories = Integer.parseInt(req.getParameter("calories"));
+		log.debug("url :" + req.getParameter("id"));
 
-		meals.get(id).setCalories(calories);
-		meals.get(id).setDateTime(date);
-		meals.get(id).setDescription(descr);
+//		int id = Integer.parseInt(req.getParameter("id"));
+
+//		log.debug("id :" + id);
+//		LocalDateTime date = LocalDateTime.parse(req.getParameter("dateTimeStr"),
+//				Utils.FORMATTER);
+//		String descr = req.getParameter("description");
+//		int calories = Integer.parseInt(req.getParameter("calories"));
+//
+//		meals.get(id).setCalories(calories);
+//		meals.get(id).setDateTime(date);
+//		meals.get(id).setDescription(descr);
 
 		log.debug("meal Updated");
 

@@ -7,33 +7,17 @@
 <body>
 <h3><a href="index.html">Home</a></h3>
 <hr>
-<h2>Create new meal</h2>
-<form method="post" action="/topjava/meals">
-    <label><input type="text" name="dateTimeStr"></label>Time<br>
-    <label><input type="text" name="description"></label>Description<br>
-    <label><input type="text" name="calories"></label>calories<br>
-    <input type="submit" value="Ok" name="Ok"><br>
-</form>
-<hr>
-<table>
+<h2>Meals</h2>
+<a href="add.jsp">Add meal</a>
+<table cellspacing="3" bgcolor="#000000">
     <c:forEach var="meal" items="${meals}">
         <c:if test="${meal.excess == false}">
-            <tr>
-                <td><p style="color:#00FF00">${meal.dateTimeStr}</p></td>
-                <td><p style="color:#00FF00">${meal.description}</p></td>
-                <td><p style="color:#00FF00">${meal.calories}</p></td>
+            <tr bgcolor="#ffffff">
+                <td><p style="color:#008000">${meal.dateTimeStr}</p></td>
+                <td><p style="color:#008000">${meal.description}</p></td>
+                <td><p style="color:#008000">${meal.calories}</p></td>
                 <td>
-                    <form method="post" action="/topjava/meals/update">
-                        <input type="number" hidden name="id" value="${meal.id}" />
-                        <label><input type="text" name="dateTimeStr"></label>Time<br>
-                        <label><input type="text" name="description"></label>Description<br>
-                        <label><input type="text" name="calories"></label>calories<br>
-                        <input type="submit" value="Ok" name="Ok"><br>
-                    </form>
-                    <form method="post" action="/topjava/meals/update">
-                        <input type="number" hidden name="id" value="${meal.id}" />
-                        <a href="update.jsp"><input type="submit" value="Update" name="update" /></a>
-                    </form>
+                    <a href="update.jsp?id=${meal.id}"><input type="submit" value="Update" name="update" /></a>
                 </td>
                 <td>
                     <form method="post" action="/topjava/meals/delete">
@@ -44,7 +28,7 @@
             </tr>
         </c:if>
         <c:if test="${meal.excess == true}">
-            <tr>
+            <tr bgcolor="#ffffff">
                 <td><p style="color:#FF0000">${meal.dateTimeStr}</p></td>
                 <td><p style="color:#FF0000">${meal.description}</p></td>
                 <td><p style="color:#FF0000">${meal.calories}</p></td>

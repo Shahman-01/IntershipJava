@@ -1,20 +1,18 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>UpdateMeal</title>
-    Update Meal
+    <meta charset="UTF-8">
+    <title>Delete meal</title>
+    Meal Delete
 </head>
 <body>
-
-<br />
-
-<form method="post" action="/topjava/meals/update">
-<%--    <input type="number" hidden name="id" value="${meal.id}" />--%>
+<h2>Create new meal</h2>
+<form method="post" action="/topjava/meals">
     <label><input type="text" name="dateTimeStr"></label>Time<br>
     <label><input type="text" name="description"></label>Description<br>
     <label><input type="text" name="calories"></label>calories<br>
     <input type="submit" value="Ok" name="Ok"><br>
 </form>
-
+<hr>
 </body>
 </html>
