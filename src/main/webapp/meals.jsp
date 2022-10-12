@@ -10,6 +10,13 @@
 <h2>Meals</h2>
 <a href="add.jsp">Add meal</a>
 <table cellspacing="3" bgcolor="#000000">
+    <tr bgcolor="#ffffff">
+        <th>Date</th>
+        <th>Description</th>
+        <th>Calories</th>
+        <th></th>
+        <th></th>
+    </tr>
     <c:forEach var="meal" items="${meals}">
         <c:if test="${meal.excess == false}">
             <tr bgcolor="#ffffff">
