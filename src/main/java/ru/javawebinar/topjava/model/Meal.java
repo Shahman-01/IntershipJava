@@ -5,57 +5,64 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Meal {
-	private int id;
-	private LocalDateTime dateTime;
+    private Integer id;
 
-	private String description;
+    private final LocalDateTime dateTime;
 
-	private int calories;
+    private final String description;
 
-	public Meal(int id, LocalDateTime dateTime, String description, int calories) {
-		this.id = id;
-		this.dateTime = dateTime;
-		this.description = description;
-		this.calories = calories;
-	}
+    private final int calories;
 
-	public LocalDateTime getDateTime() {
-		return dateTime;
-	}
+    public Meal(LocalDateTime dateTime, String description, int calories) {
+        this(null, dateTime, description, calories);
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public Meal(Integer id, LocalDateTime dateTime, String description, int calories) {
+        this.id = id;
+        this.dateTime = dateTime;
+        this.description = description;
+        this.calories = calories;
+    }
 
-	public int getCalories() {
-		return calories;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public LocalDate getDate() {
-		return dateTime.toLocalDate();
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public LocalTime getTime() {
-		return dateTime.toLocalTime();
-	}
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDateTime(LocalDateTime dateTime) {
-		this.dateTime = dateTime;
-	}
+    public int getCalories() {
+        return calories;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public LocalDate getDate() {
+        return dateTime.toLocalDate();
+    }
 
-	public void setCalories(int calories) {
-		this.calories = calories;
-	}
+    public LocalTime getTime() {
+        return dateTime.toLocalTime();
+    }
 
-	public int getId() {
-		return id;
-	}
+    public boolean isNew() {
+        return id == null;
+    }
+
+    @Override
+    public String toString() {
+        return "Meal{" +
+                "id=" + id +
+                ", dateTime=" + dateTime +
+                ", description='" + description + '\'' +
+                ", calories=" + calories +
+                '}';
+    }
 }

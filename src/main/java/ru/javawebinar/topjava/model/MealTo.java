@@ -1,61 +1,54 @@
 package ru.javawebinar.topjava.model;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class MealTo {
-	private final int id;
-	private final LocalDateTime dateTime;
+    private final Integer id;
 
-	private final String description;
+    private final LocalDateTime dateTime;
 
-	private final int calories;
+    private final String description;
 
-	private final boolean excess;
+    private final int calories;
 
-	private String dateTimeStr;
+    private final boolean excess;
 
-	public MealTo(int id, LocalDateTime dateTime, String description, int calories, boolean excess) {
-		this.id = id;
-		this.dateTime = dateTime;
-		this.description = description;
-		this.calories = calories;
-		this.excess = excess;
-	}
+    public MealTo(Integer id, LocalDateTime dateTime, String description, int calories, boolean excess) {
+        this.id = id;
+        this.dateTime = dateTime;
+        this.description = description;
+        this.calories = calories;
+        this.excess = excess;
+    }
 
-	@Override
-	public String toString() {
-		return "MealTo{" +
-				"dateTime=" + dateTime +
-				", description='" + description + '\'' +
-				", calories=" + calories +
-				", excess=" + excess +
-				'}';
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public String getDateTimeStr() {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		dateTimeStr = dateTime.format(formatter);
-		return dateTimeStr;
-	}
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
 
-	public LocalDateTime getDateTime() {
-		return dateTime;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public int getCalories() {
+        return calories;
+    }
 
-	public int getCalories() {
-		return calories;
-	}
+    public boolean isExcess() {
+        return excess;
+    }
 
-	public boolean isExcess() {
-		return excess;
-	}
-
-	public int getId() {
-		return id;
-	}
+    @Override
+    public String toString() {
+        return "MealTo{" +
+                "id=" + id +
+                ", dateTime=" + dateTime +
+                ", description='" + description + '\'' +
+                ", calories=" + calories +
+                ", excess=" + excess +
+                '}';
+    }
 }
