@@ -40,6 +40,7 @@ public class UpdateMeal extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 
 		int id = Integer.parseInt(req.getParameter("id"));
+		int index = Utils.indexOfId(meals, id);
 
 		log.debug("id :" + id);
 		LocalDateTime date = LocalDateTime.parse(req.getParameter("dateTimeStr"),
@@ -47,9 +48,9 @@ public class UpdateMeal extends HttpServlet {
 		String descr = req.getParameter("description");
 		int calories = Integer.parseInt(req.getParameter("calories"));
 
-		meals.get(id).setCalories(calories);
-		meals.get(id).setDateTime(date);
-		meals.get(id).setDescription(descr);
+		meals.get(index).setCalories(calories);
+		meals.get(index).setDateTime(date);
+		meals.get(index).setDescription(descr);
 
 		log.debug("meal Updated");
 
@@ -67,7 +68,7 @@ public class UpdateMeal extends HttpServlet {
 		if (Utils.idIsInvalid(id + "", meals))
 			resp.sendRedirect(req.getContextPath() + "/meals");
 
-		final Meal meal = meals.get(id);
+		final Meal meal = meals.get(Utils.indexOfId(meals, id));
 		req.setAttribute("meal", meal);
 
 		req.getRequestDispatcher("/update.jsp").forward(req, resp);

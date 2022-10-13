@@ -61,7 +61,7 @@ public class DeleteMeal extends HttpServlet {
 		if (Utils.idIsInvalid(id + "", meals))
 			resp.sendRedirect(req.getContextPath() + "/meals");
 
-		final Meal meal = meals.get(id);
+		final Meal meal = meals.get(Utils.indexOfId(meals, id));
 		req.setAttribute("meal", meal);
 
 		doPost(req, resp);

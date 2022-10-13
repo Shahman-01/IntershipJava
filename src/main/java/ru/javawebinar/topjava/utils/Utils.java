@@ -1,7 +1,6 @@
 package ru.javawebinar.topjava.utils;
 
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.web.ContextListener;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -29,7 +28,14 @@ public class Utils {
 
 	public static boolean idIsInvalid(String id, List<Meal> meals) {
 		return !(id != null &&
-				id.matches("[+]?\\d+") &&
-				meals.get(Integer.parseInt(id)) != null);
+				id.matches("[+]?\\d+"));
+	}
+
+	public static int indexOfId(List<Meal> meals, int id) {
+		int index = -1;
+		for (int i = 0; i < meals.size(); i++)
+			if (meals.get(i).getId() == id)
+				index = i;
+		return index;
 	}
 }
