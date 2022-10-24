@@ -3,6 +3,8 @@ package ru.javawebinar.topjava.repository.inmemory;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
+import ru.javawebinar.topjava.web.SecurityUtil;
 
 import java.util.Collection;
 import java.util.Map;
@@ -15,6 +17,7 @@ public class InMemoryMealRepository implements MealRepository {
 
     {
         MealsUtil.meals.forEach(this::save);
+        MealsUtil.init(MealsUtil.meals);
     }
 
     @Override
@@ -30,6 +33,8 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public boolean delete(int id) {
+        if (repository.get(id).getUserId() != SecurityUtil.authUserId())
+            return false;
         return repository.remove(id) != null;
     }
 
