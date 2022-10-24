@@ -27,10 +27,6 @@ public class MealsUtil {
             new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410)
     );
 
-    public static void init(List<Meal> meals) {
-        meals.forEach(m -> m.setUserId(SecurityUtil.authUserId()));
-    }
-
     public static final List<User> users = Arrays.asList(
             new User(1, "shah", "email@mail.ru", "password",
                     2000, true, Collections.singleton(Role.USER))
