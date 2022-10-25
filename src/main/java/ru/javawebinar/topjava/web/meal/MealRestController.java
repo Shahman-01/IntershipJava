@@ -13,38 +13,39 @@ import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
 
 @Controller
 public class MealRestController {
-    protected final Logger log = LoggerFactory.getLogger(getClass());
+	protected final Logger log = LoggerFactory.getLogger(getClass());
 
-    private final MealService service;
+	private final MealService service;
 
-    @Autowired
-    public MealRestController(MealService service) {
-        this.service = service;
-    }
+	@Autowired
+	public MealRestController(MealService service) {
+		this.service = service;
+	}
 
-    public Collection<Meal> getAll() {
-        log.info("getAll");
-        return service.getAll();
-    }
+	public Collection<Meal> getAll() {
+		log.info("getAll");
+		return service.getAll();
+	}
 
-    public Meal get(int id) {
-        log.info("get {}", id);
-        return service.get(id);
-    }
-    public Meal create(Meal meal) {
-        log.info("create {}", meal);
+	public Meal get(int id) {
+		log.info("get {}", id);
+		return service.get(id);
+	}
+
+	public Meal create(Meal meal) {
+		log.info("create {}", meal);
 //        checkNew(meal);
-        return service.create(meal);
-    }
+		return service.create(meal);
+	}
 
-    public void delete(int id) {
-        log.info("delete {}", id);
-        service.delete(id);
-    }
+	public void delete(int id) {
+		log.info("delete {}", id);
+		service.delete(id);
+	}
 
-    public void update(Meal meal, int id) {
-        log.info("update {} with id={}", meal, id);
-        assureIdConsistent(meal, id);
-        service.update(meal);
-    }
+	public void update(Meal meal, int id) {
+		log.info("update {} with id={}", meal, id);
+		assureIdConsistent(meal, id);
+		service.update(meal);
+	}
 }

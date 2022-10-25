@@ -8,6 +8,7 @@ import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -48,13 +49,16 @@ public class InMemoryUserRepository implements UserRepository {
 	public List<User> getAll() {
 		log.info("getAll");
 		return repository.values().stream()
-				.sorted((u1, u2) -> u1.getName().compareTo(u2.getName()))
+				.sorted(Comparator.comparing(User::getName).thenComparing(User::getEmail))
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	public User getByEmail(String email) {
 		log.info("getByEmail {}", email);
-		return repository.get(getAll().stream().filter(u -> u.getEmail().equals(email)));
+		return getAll().stream()
+				.filter(u -> u.getEmail().equals(email))
+				.findFirst()
+				.orElse(null);
 	}
 }
