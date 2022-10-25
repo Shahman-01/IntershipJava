@@ -10,7 +10,6 @@ import ru.javawebinar.topjava.service.MealService;
 import java.util.Collection;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
-import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 
 @Controller
 public class MealRestController {
@@ -34,7 +33,7 @@ public class MealRestController {
     }
     public Meal create(Meal meal) {
         log.info("create {}", meal);
-        checkNew(meal);
+//        checkNew(meal);
         return service.create(meal);
     }
 
