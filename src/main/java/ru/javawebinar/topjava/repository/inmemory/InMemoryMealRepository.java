@@ -18,11 +18,12 @@ public class InMemoryMealRepository implements MealRepository {
 
     {
         MealsUtil.meals.forEach(this::save);
-//        MealsUtil.init(MealsUtil.meals);
     }
 
     @Override
     public Meal save(Meal meal) {
+        if (meal.getUserId() != SecurityUtil.authUserId())
+            return null;
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
             repository.put(meal.getId(), meal);
@@ -49,7 +50,9 @@ public class InMemoryMealRepository implements MealRepository {
     @Override
     public Collection<Meal> getAll() {
         return repository.values().stream()
-                .filter(m -> m.getUserId() == SecurityUtil.authUserId()).collect(Collectors.toList());
+                .filter(m -> m.getUserId() == SecurityUtil.authUserId())
+                .sorted((m1, m2) -> m2.getDateTime().compareTo(m1.getDateTime()))
+                .collect(Collectors.toList());
     }
 }
 
