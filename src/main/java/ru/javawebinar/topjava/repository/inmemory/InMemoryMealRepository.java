@@ -43,23 +43,21 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
-    public boolean delete(int id) {
-        if (repository.get(id).getUserId() != SecurityUtil.authUserId())
-            return false;
-        return repository.remove(id) != null;
+    public boolean delete(int id, int userId) {
+        Map<Integer, Meal> meals = usersMealsMap.get(userId);
+        return meals != null && meals.remove(id) != null;
     }
 
     @Override
-    public Meal get(int id) {
-        if (repository.get(id).getUserId() != SecurityUtil.authUserId())
-            return null;
-        return repository.get(id);
+    public Meal get(int id, int userId) {
+        Map<Integer, Meal> meals = usersMealsMap.get(userId);
+        return meals == null ? null : meals.get(id);
     }
 
     @Override
-    public Collection<Meal> getAll() {
-        return repository.values().stream()
-                .filter(m -> m.getUserId() == SecurityUtil.authUserId())
+    public Collection<Meal> getAll(int userId) {
+        Map<Integer, Meal> meals = usersMealsMap.get(userId);
+        return meals.values().stream()
                 .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .collect(Collectors.toList());
     }
