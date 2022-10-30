@@ -25,8 +25,4 @@ public class MealServiceTest {
 	@Autowired
 	private MealService service;
 
-//	MealService@Test
-//	public void create() {
-//		Meal created
-//	}
 }
