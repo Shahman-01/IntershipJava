@@ -11,6 +11,9 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "meals")
 public class Meal extends AbstractBaseEntity {
+
+    public static final String DELETE = "Meal.delete";
+
     @NotNull
     @Column(name = "date_time", nullable = false, unique = true)
     private LocalDateTime dateTime;
@@ -34,19 +37,18 @@ public class Meal extends AbstractBaseEntity {
     }
 
     public Meal(Meal m) {
-        this(m.id, m.dateTime, m.description, m.calories, m.user);
+        this(m.id, m.dateTime, m.description, m.calories);
     }
 
     public Meal(LocalDateTime dateTime, String description, int calories, User user) {
-        this(null, dateTime, description, calories, user);
+        this(null, dateTime, description, calories);
     }
 
-    public Meal(Integer id, LocalDateTime dateTime, String description, int calories, User user) {
+    public Meal(Integer id, LocalDateTime dateTime, String description, int calories) {
         super(id);
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
-        this.user = user;
     }
 
     public LocalDateTime getDateTime() {
