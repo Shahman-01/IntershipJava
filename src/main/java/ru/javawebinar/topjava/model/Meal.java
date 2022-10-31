@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -11,31 +12,41 @@ import java.time.LocalTime;
 @Table(name = "meals")
 public class Meal extends AbstractBaseEntity {
     @NotNull
-    @Column(name = "date_time")
+    @Column(name = "date_time", nullable = false, unique = true)
     private LocalDateTime dateTime;
 
-    @NotNull
+    @Column(name = "description", nullable = false)
+    @NotBlank
+    @Size(min = 3, max = 128)
     private String description;
 
+
+    @Column(name = "calories", nullable = false)
     @NotNull
     private int calories;
 
-    @NotNull
+    @Column(name = "user_id")
+    @NotBlank
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     public Meal() {
     }
 
-    public Meal(LocalDateTime dateTime, String description, int calories) {
-        this(null, dateTime, description, calories);
+    public Meal(Meal m) {
+        this(m.id, m.dateTime, m.description, m.calories, m.user);
     }
 
-    public Meal(Integer id, LocalDateTime dateTime, String description, int calories) {
+    public Meal(LocalDateTime dateTime, String description, int calories, User user) {
+        this(null, dateTime, description, calories, user);
+    }
+
+    public Meal(Integer id, LocalDateTime dateTime, String description, int calories, User user) {
         super(id);
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
+        this.user = user;
     }
 
     public LocalDateTime getDateTime() {
