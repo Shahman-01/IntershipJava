@@ -8,6 +8,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+@NamedQueries({
+        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id"),
+})
 @Entity
 @Table(name = "meals")
 public class Meal extends AbstractBaseEntity {
@@ -28,7 +31,6 @@ public class Meal extends AbstractBaseEntity {
     @NotNull
     private int calories;
 
-    @Column(name = "user_id")
     @NotBlank
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
@@ -40,7 +42,7 @@ public class Meal extends AbstractBaseEntity {
         this(m.id, m.dateTime, m.description, m.calories);
     }
 
-    public Meal(LocalDateTime dateTime, String description, int calories, User user) {
+    public Meal(LocalDateTime dateTime, String description, int calories) {
         this(null, dateTime, description, calories);
     }
 
