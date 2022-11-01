@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.MealsUtil;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,9 +20,8 @@ public class JpaMealRepository implements MealRepository {
 	@Override
 	@Transactional
 	public Meal save(Meal meal, int userId) {
-//		Query query = em.createQuery("SELECT u FROM User u WHERE u.id = " + userId);
-//		User user = (User) query.getResultList().get(0);
-//		meal.setUser(user);
+		User user = em.find(User.class, userId);
+		meal.setUser(user);
 		if (meal.isNew()) {
 			em.persist(meal);
 			return meal;
@@ -40,11 +40,9 @@ public class JpaMealRepository implements MealRepository {
 
 	@Override
 	public Meal get(int id, int userId) {
-		return null;
-//        Meal m = em.find(Meal.class, id);
-//        if (m.getUser().equals(userId))
-//            return null;
-//        return m;
+//		return em.find(Meal.class, id);
+		return (Meal) em.createQuery("SELECT m FROM Meal m WHERE m.id = " + id + " AND m.user.id =" + userId)
+				.getResultList().get(0);
 	}
 
 	@Override
