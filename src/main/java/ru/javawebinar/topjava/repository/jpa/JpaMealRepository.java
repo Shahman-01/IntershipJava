@@ -49,8 +49,6 @@ public class JpaMealRepository implements MealRepository {
 			return meal;
 		}
 		throw new NotFoundException("not found meal whit id = " + id);
-//		return (Meal) em.createQuery("SELECT m FROM Meal m WHERE m.id = " + id + " AND m.user.id =" + userId)
-//				.getResultList().get(0);
 	}
 
 	@Override
