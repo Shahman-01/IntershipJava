@@ -53,7 +53,7 @@ public class JpaMealRepository implements MealRepository {
 
 	@Override
 	public List<Meal> getAll(int userId) {
-		return em.createQuery("SELECT m FROM Meal m WHERE m.user.id = " + userId + " ORDER BY m.dateTime DESC")
+		return em.createQuery("SELECT m FROM Meal m WHERE m.user.id = userId ORDER BY m.dateTime DESC")
 				.getResultList();
 	}
 
