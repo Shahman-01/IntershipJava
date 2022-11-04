@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.repository.datajpa;
 
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import java.time.LocalDateTime;
@@ -18,7 +19,13 @@ public class DataJpaMealRepository implements MealRepository {
 
     @Override
     public Meal save(Meal meal, int userId) {
-        return meal.getUser().getId() == userId ? crudRepository.save(meal) : null;
+        if (meal.isNew()) {
+            crudRepository.save(meal);
+            return meal;
+        } else if (get(meal.id(), userId) == null) {
+            return null;
+        }
+        return crudRepository.save(meal);
     }
 
     @Override
@@ -28,7 +35,8 @@ public class DataJpaMealRepository implements MealRepository {
 
     @Override
     public Meal get(int id, int userId) {
-        return null;
+        Meal meal = crudRepository.getReferenceById(id);
+        return meal != null && meal.getUser().getId() == userId ? meal : null;
     }
 
     @Override
