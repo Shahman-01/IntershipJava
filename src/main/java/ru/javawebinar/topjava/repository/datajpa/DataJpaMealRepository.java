@@ -16,16 +16,21 @@ public class DataJpaMealRepository implements MealRepository {
 
     private final CrudMealRepository crudRepository;
 
-    public DataJpaMealRepository(CrudMealRepository crudRepository) {
+    private final CrudUserRepository userRepository;
+
+    public DataJpaMealRepository(CrudMealRepository crudRepository, CrudUserRepository userRepository) {
         this.crudRepository = crudRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
+    @Transactional
     public Meal save(Meal meal, int userId) {
-        if (meal != null)
-            return crudRepository.save(meal);
-        else
+        User user = userRepository.getReferenceById(userId);
+        meal.setUser(user);
+        if (meal.getUser().getId() != userId)
             return null;
+        return crudRepository.save(meal);
     }
 
     @Override
