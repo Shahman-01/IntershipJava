@@ -28,8 +28,11 @@ public class DataJpaMealRepository implements MealRepository {
     public Meal save(Meal meal, int userId) {
         User user = userRepository.getReferenceById(userId);
         meal.setUser(user);
-        if (meal.getUser().getId() != userId)
+        if (meal.isNew()) {
+            return crudRepository.save(meal);
+        } else if (get(meal.getId(), userId) == null) {
             return null;
+        }
         return crudRepository.save(meal);
     }
 
