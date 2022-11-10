@@ -7,9 +7,7 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class DataJpaMealRepository implements MealRepository {
@@ -52,19 +50,11 @@ public class DataJpaMealRepository implements MealRepository {
 
     @Override
     public List<Meal> getAll(int userId) {
-        return crudRepository.findAll().stream()
-                .filter(m -> m.getUser().getId() == userId)
-                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
-                .collect(Collectors.toList());
+        return crudRepository.getAll(userId);
     }
 
     @Override
     public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-        return crudRepository.findAll().stream()
-                .filter(m -> m.getUser().getId() == userId &&
-                        m.getDateTime().isAfter(startDateTime) &&
-                        m.getDateTime().isBefore(endDateTime))
-                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
-                .collect(Collectors.toList());
+        return crudRepository.getBetweenHalfOpen(startDateTime, endDateTime, userId);
     }
 }
