@@ -18,6 +18,11 @@ public class JdbcMealRepositoryForHsqldb extends AbstractJdbcMealRepository {
 	}
 
 	@Override
+	public boolean delete(int id, int userId) {
+		return jdbcTemplate.update("DELETE FROM meals WHERE id=? AND user_id=?", id, userId) != 0;
+	}
+
+	@Override
 	public Meal save(Meal meal, int userId) {
 		return null;
 	}
@@ -26,4 +31,6 @@ public class JdbcMealRepositoryForHsqldb extends AbstractJdbcMealRepository {
 	public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
 		return null;
 	}
+
+
 }
