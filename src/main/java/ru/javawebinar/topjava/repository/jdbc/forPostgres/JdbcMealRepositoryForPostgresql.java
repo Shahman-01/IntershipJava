@@ -3,17 +3,18 @@ package ru.javawebinar.topjava.repository.jdbc.forPostgres;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.jdbc.AbstractJdbcMealRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-
+@Repository
 public class JdbcMealRepositoryForPostgresql extends AbstractJdbcMealRepository {
-	public JdbcMealRepositoryForPostgresql(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate, JdbcTemplate jdbcTemplate1, NamedParameterJdbcTemplate namedParameterJdbcTemplate1, SimpleJdbcInsert insertMeal) {
-		super(jdbcTemplate, namedParameterJdbcTemplate, jdbcTemplate1, namedParameterJdbcTemplate1, insertMeal);
+
+	public JdbcMealRepositoryForPostgresql(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+		super(jdbcTemplate, namedParameterJdbcTemplate);
 	}
 
 	@Override
