@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.repository.jdbc.forPostgres;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
+@Profile("postgres")
 public class JdbcMealRepositoryForPostgresql extends AbstractJdbcMealRepository {
 
 	public JdbcMealRepositoryForPostgresql(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -38,13 +40,6 @@ public class JdbcMealRepositoryForPostgresql extends AbstractJdbcMealRepository 
 			}
 		}
 		return meal;
-	}
-
-
-	@Override
-	public List<Meal> getAll(int userId) {
-		return jdbcTemplate.query(
-				"SELECT * FROM meals WHERE user_id=? ORDER BY date_time DESC", ROW_MAPPER, userId);
 	}
 
 	@Override
