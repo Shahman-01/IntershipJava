@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 
@@ -67,14 +69,19 @@ public class JspMealController {
 		return Integer.parseInt(paramId);
 	}
 
-//	@GetMapping("meals/")
-//	public String meals(Model model) {
-//		Meal meal = new Meal(
-//				(LocalDateTime) model.getAttribute("dateTime"),
-//				(String) model.getAttribute("description"),
-//				(Integer) model.getAttribute("calories")
-//		);
-//
-//
-//	}
+	@PostMapping("meals/")
+	public String setMeal(Model model) {
+		Meal meal = new Meal(
+				(LocalDateTime) model.getAttribute("dateTime"),
+				(String) model.getAttribute("description"),
+				(Integer) model.getAttribute("calories")
+		);
+
+		if (StringUtils.hasLength((CharSequence) model.getAttribute("id"))) {
+			controller.update(meal, getId(model));
+		} else {
+			controller.create(meal);
+		}
+		return "redirect:meals";
+	}
 }
