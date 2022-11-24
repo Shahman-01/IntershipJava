@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 
-import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
@@ -21,22 +22,48 @@ public class JspMealController {
 	@Autowired
 	private MealRestController controller;
 
+	@GetMapping("/meals")
+	public String meals(Model model) {
+		model.addAttribute("meals", controller.getAll());
+		return "meals";
+	}
+
 	@GetMapping("/meals/create")
-	public String createMeal(Model model, HttpServletRequest request) {
+	public String create(Model model) {
 		final Meal meal = new Meal(
 				LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000);
 		model.addAttribute("meal", meal);
-		return "redirect:mealForm.jsp";
+		return "mealForm";
 	}
 
 	@GetMapping("/meals/update")
-	public String updateMeal(Model model, HttpServletRequest request) {
-		final Meal meal = controller.get(getId(request));
-		return "redirect:mealForm.jsp";
+	public String update(Model model) {
+		final Meal meal = controller.get(getId(model));
+		return "mealForm";
 	}
 
-	private int getId(HttpServletRequest request) {
-		String paramId = Objects.requireNonNull(request.getParameter("id"));
+	@GetMapping("/meals/delete")
+	public String delete(Model model) {
+		int id = getId(model);
+		controller.delete(id);
+		return "redirect:meals";
+	}
+
+	@GetMapping("/meals/filter")
+	public String filter(Model model) {
+		LocalDate startDate = (LocalDate) model.getAttribute("startDate");
+		LocalDate endDate = (LocalDate) model.getAttribute("endDate");
+		LocalTime startTime = (LocalTime) model.getAttribute("startTime");
+		LocalTime endTime = (LocalTime) model.getAttribute("endTime");
+
+		model.addAttribute("meals", controller. getBetween(
+				startDate, startTime, endDate, endTime
+		));
+		return "meals";
+	}
+
+	private int getId(Model model) {
+		String paramId = Objects.requireNonNull(model.addAttribute("id")).toString();
 		return Integer.parseInt(paramId);
 	}
 
