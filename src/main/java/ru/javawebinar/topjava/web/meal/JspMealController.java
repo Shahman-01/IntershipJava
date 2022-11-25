@@ -1,7 +1,5 @@
-package ru.javawebinar.topjava.web;
+package ru.javawebinar.topjava.web.meal;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +7,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.web.meal.MealRestController;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,7 +16,6 @@ import java.util.Objects;
 
 @Controller
 public class JspMealController {
-	private static final Logger log = LoggerFactory.getLogger(JspMealController.class);
 
 	@Autowired
 	private MealRestController controller;
@@ -35,7 +31,7 @@ public class JspMealController {
 		final Meal meal = new Meal(
 				LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000);
 		model.addAttribute("meal", meal);
-		return "mealForm";
+		return "meals";
 	}
 
 	@GetMapping("/meals/update")
