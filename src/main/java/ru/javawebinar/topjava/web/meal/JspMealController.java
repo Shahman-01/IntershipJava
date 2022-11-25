@@ -1,13 +1,12 @@
 package ru.javawebinar.topjava.web.meal;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.javawebinar.topjava.model.Meal;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -15,68 +14,53 @@ import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 @Controller
-public class JspMealController {
+@RequestMapping("/meals")
+public class JspMealController extends AbstractMealController {
 
-	@Autowired
-	private MealRestController controller;
-
-	@GetMapping("/meals")
-	public String meals(Model model) {
-		model.addAttribute("meals", controller.getAll());
-		return "meals";
-	}
-
-	@GetMapping("/meals/create")
+	@GetMapping("/create")
 	public String create(Model model) {
-		final Meal meal = new Meal(
-				LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000);
-		model.addAttribute("meal", meal);
-		return "meals";
-	}
-
-	@GetMapping("/meals/update")
-	public String update(Model model) {
-		final Meal meal = controller.get(getId(model));
+		model.addAttribute("meal", new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS), "", 1000));
 		return "mealForm";
 	}
 
-	@GetMapping("/meals/delete")
-	public String delete(Model model) {
-		int id = getId(model);
-		controller.delete(id);
-		return "redirect:meals";
+	@GetMapping("/update")
+	public String update(Model model, HttpServletRequest request) {
+		model.addAttribute("meal", super.get(getId(request)));
+		return "mealForm";
 	}
 
-	@GetMapping("/meals/filter")
-	public String filter(Model model) {
+	@GetMapping("/delete")
+	public String delete(HttpServletRequest request) {
+		super.delete(getId(request));
+		return "mealForm";
+	}
+
+	@GetMapping("/filter")
+	public String filter(Model model, HttpServletRequest request) {
 		LocalDate startDate = (LocalDate) model.getAttribute("startDate");
 		LocalDate endDate = (LocalDate) model.getAttribute("endDate");
 		LocalTime startTime = (LocalTime) model.getAttribute("startTime");
 		LocalTime endTime = (LocalTime) model.getAttribute("endTime");
 
-		model.addAttribute("meals", controller. getBetween(
-				startDate, startTime, endDate, endTime
-		));
-		return "meals";
+		model.addAttribute("meal", super.getBetween(startDate, startTime, endDate, endTime));
+		return "redirect:/meals";
 	}
 
-	private int getId(Model model) {
-		String paramId = Objects.requireNonNull(model.addAttribute("id")).toString();
+	private int getId(HttpServletRequest request) {
+		String paramId = Objects.requireNonNull(request.getParameter("id"));
 		return Integer.parseInt(paramId);
 	}
 
-	@PostMapping("meals/")
-	public String setMeal(Model model) {
-		Meal meal = new Meal(
-				(LocalDateTime) model.getAttribute("dateTime"),
-				(String) model.getAttribute("description"),
-				(Integer) model.getAttribute("calories")
+	public String setMeal(HttpServletRequest request) {
+		Meal meal = new Meal(LocalDateTime.parse(request.getParameter("dateTime")),
+				request.getParameter("description"),
+				Integer.parseInt(request.getParameter("calories"))
 		);
 
-		if (StringUtils.hasLength((CharSequence) model.getAttribute("id"))) {
-			controller.update(meal, getId(model));
+		if (request.getParameter("id").isEmpty()) {
+			super.create(meal);
 		} else {
-			controller.create(meal);
+			super.update(meal, getId(request));
 		}
 		return "redirect:meals";
 	}
