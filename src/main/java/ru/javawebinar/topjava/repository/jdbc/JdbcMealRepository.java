@@ -8,6 +8,10 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 
@@ -17,6 +21,8 @@ import java.util.List;
 @Repository
 public class JdbcMealRepository implements MealRepository {
 
+    private PlatformTransactionManager manager;
+
     private static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
 
     private final JdbcTemplate jdbcTemplate;
@@ -25,7 +31,8 @@ public class JdbcMealRepository implements MealRepository {
 
     private final SimpleJdbcInsert insertMeal;
 
-    public JdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public JdbcMealRepository(PlatformTransactionManager manager, JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.manager = manager;
         this.insertMeal = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("meals")
                 .usingGeneratedKeyColumns("id");
@@ -43,16 +50,25 @@ public class JdbcMealRepository implements MealRepository {
                 .addValue("date_time", meal.getDateTime())
                 .addValue("user_id", userId);
 
-        if (meal.isNew()) {
-            Number newId = insertMeal.executeAndReturnKey(map);
-            meal.setId(newId.intValue());
-        } else {
-            if (namedParameterJdbcTemplate.update("" +
-                    "UPDATE meals " +
-                    "   SET description=:description, calories=:calories, date_time=:date_time " +
-                    " WHERE id=:id AND user_id=:user_id", map) == 0) {
-                return null;
+        TransactionDefinition txDef = new DefaultTransactionDefinition();
+        TransactionStatus txStat = manager.getTransaction(txDef);
+
+        try {
+            if (meal.isNew()) {
+                Number newId = insertMeal.executeAndReturnKey(map);
+                meal.setId(newId.intValue());
+            } else {
+                if (namedParameterJdbcTemplate.update("" +
+                        "UPDATE meals " +
+                        "   SET description=:description, calories=:calories, date_time=:date_time " +
+                        " WHERE id=:id AND user_id=:user_id", map) == 0) {
+                    return null;
+                }
             }
+            manager.commit(txStat);
+        } catch (Exception e) {
+            manager.rollback(txStat);
+            throw e;
         }
         return meal;
     }
