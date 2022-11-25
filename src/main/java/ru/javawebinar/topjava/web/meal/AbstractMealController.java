@@ -43,15 +43,25 @@ public abstract class AbstractMealController {
 
 	public Meal create(Meal meal) {
 		int userId = SecurityUtil.authUserId();
+<<<<<<< HEAD
 		checkNew(meal);
 		log.info("create {} for user {}", meal, userId);
+=======
+		log.info("create {} for user {}", meal, userId);
+		checkNew(meal);
+>>>>>>> 020cb3b (add JspMealController, but in's not works yet)
 		return service.create(meal, userId);
 	}
 
 	public void update(Meal meal, int id) {
 		int userId = SecurityUtil.authUserId();
+<<<<<<< HEAD
 		assureIdConsistent(meal, id);
 		log.info("update {} for user {}", meal, userId);
+=======
+		log.info("update {} for user {}", meal, userId);
+		assureIdConsistent(meal, id);
+>>>>>>> 020cb3b (add JspMealController, but in's not works yet)
 		service.update(meal, userId);
 	}
 
