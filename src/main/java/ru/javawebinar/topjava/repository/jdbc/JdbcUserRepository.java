@@ -49,8 +49,8 @@ public class JdbcUserRepository implements UserRepository {
 			insertRoles(user);
 		} else {
 			if (namedParameterJdbcTemplate.update("""
-                    UPDATE users SET name=:name, email=:email, password=:password, 
-				   registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id
+					               UPDATE users SET name=:name, email=:email, password=:password, 
+					  registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id
 					""", parameterSource) == 0)
 				return null;
 			deleteRoles(user);
@@ -115,40 +115,4 @@ public class JdbcUserRepository implements UserRepository {
 		return u;
 	}
 
-	//	@Override
-//	public List<User> getAll() {
-//		String sql = "SELECT * FROM users ORDER BY name, email";
-//		return namedParameterJdbcTemplate.query(sql, rs -> {
-//			HashMap<Integer, User> map = new HashMap<>();
-//			User user;
-//			while (rs.next()) {
-//				Integer id = rs.getInt("id");
-//				user = map.get(id);
-//				if (user == null)
-//					map.put(id, setUser(user, rs, id));
-//				Integer user_id = rs.getInt("user_id");
-//
-//			}
-//		})
-//	}
-//
-//	private User setUser(User user, ResultSet rs, Integer id) throws SQLException {
-//		user = new User();
-//		user.setId(id);
-//		user.setEmail(rs.getString("email"));
-//		user.setEnabled(rs.getBoolean("enabled"));
-//		user.setPassword(rs.getString("password"));
-//		user.setRegistered(rs.getDate("registered"));
-//		user.setCaloriesPerDay(rs.getInt("caloriesPerDay"));
-//		user.setRoles(new HashSet<Role>());
-//		return user;
-//	}
-//
-//	private User setRoles(User u) {
-//		if (u != null) {
-//			List<Role> roles = jdbcTemplate.queryForList("SELECT role FROM user_roles WHERE user_id=?", Role.class, u.getId());
-//			u.setRoles(roles);
-//		}
-//		return u;
-//	}
 }
