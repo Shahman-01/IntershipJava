@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.web.meal;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.javawebinar.topjava.MealTestData;
 import ru.javawebinar.topjava.model.Meal;
@@ -43,12 +44,27 @@ public class MealRestControllerTest extends AbstractControllerTest {
 	@Test
 	void update() throws Exception {
 		Meal updated = MealTestData.getUpdated();
-		perform(MockMvcRequestBuilders.put(REST_URL + USER_ID)
+		perform(MockMvcRequestBuilders.put(REST_URL + MEAL1_ID)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(JsonUtil.writeValue(updated)))
 				.andExpect(status().isNoContent());
 
 		MEAL_MATCHER.assertMatch(mealService.get(MEAL1_ID, USER_ID), updated);
+	}
+
+	@Test
+	void createWithLocation() throws Exception {
+		Meal newMeal = MealTestData.getNew();
+		ResultActions actions = perform(MockMvcRequestBuilders.post(REST_URL)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(JsonUtil.writeValue(newMeal)))
+				.andExpect(status().isCreated());
+
+		Meal created = MEAL_MATCHER.readFromJson(actions);
+		int newId = created.id();
+		newMeal.setId(newId);
+		MEAL_MATCHER.assertMatch(created, newMeal);
+		MEAL_MATCHER.assertMatch(mealService.get(newId, USER_ID), newMeal);
 	}
 
 	@Test
