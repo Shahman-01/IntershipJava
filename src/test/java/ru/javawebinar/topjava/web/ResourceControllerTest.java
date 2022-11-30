@@ -13,7 +13,7 @@ public class ResourceControllerTest {
 	private static HttpURLConnection con;
 
 	@BeforeAll
-	public static void connection() throws IOException {
+	static void connection() throws IOException {
 		URL url = new URL("http://localhost:8080/topjava/resources/css/style.css");
 		con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("GET");
@@ -21,12 +21,12 @@ public class ResourceControllerTest {
 	}
 
 	@Test
-	public void checkStatus() throws IOException {
+	void checkStatus() throws IOException {
 		Assertions.assertEquals(con.getResponseCode(), 200);
 	}
 
 	@Test
-	public void checkContentType() {
+	void checkContentType() {
 		Assertions.assertEquals(con.getContentType(), "text/css;charset=UTF-8");
 	}
 }
