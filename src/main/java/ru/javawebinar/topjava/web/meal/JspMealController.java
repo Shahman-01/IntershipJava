@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.web.meal;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,7 @@ import java.util.Objects;
 import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalDate;
 import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalTime;
 
-//@Controller
+@Controller
 @RequestMapping("/meals")
 public class JspMealController extends AbstractMealController {
 
@@ -58,7 +59,7 @@ public class JspMealController extends AbstractMealController {
         LocalDate endDate = parseLocalDate(request.getParameter("endDate"));
         LocalTime startTime = parseLocalTime(request.getParameter("startTime"));
         LocalTime endTime = parseLocalTime(request.getParameter("endTime"));
-        model.addAttribute("meals", super.getBetween(startTime.atDate(startDate), endTime.atDate(endDate)));
+        model.addAttribute("meals", super.getBetween(startDate, startTime, endDate, endTime));
         return "meals";
     }
 
