@@ -7,8 +7,7 @@ import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 import ru.javawebinar.topjava.web.user.AdminRestController;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
@@ -29,11 +28,11 @@ public class SpringMain {
             MealRestController mealController = appCtx.getBean(MealRestController.class);
             List<MealTo> filteredMealsWithExcess =
                     mealController.getBetween(
-                            LocalDate.of(2020, Month.JANUARY, 30), LocalTime.of(7, 0),
-                            LocalDate.of(2020, Month.JANUARY, 31), LocalTime.of(11, 0));
+                            LocalDateTime.of(2020, Month.JANUARY, 31, 11, 00,0),
+                            LocalDateTime.of(2020, Month.JANUARY, 30, 11, 00,0));
             filteredMealsWithExcess.forEach(System.out::println);
             System.out.println();
-            System.out.println(mealController.getBetween(null, null, null, null));
+            System.out.println(mealController.getBetween(null, null));
         }
     }
 }
