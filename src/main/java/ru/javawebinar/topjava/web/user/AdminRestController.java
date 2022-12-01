@@ -28,6 +28,11 @@ public class AdminRestController extends AbstractUserController {
         return super.get(id);
     }
 
+
+    public User getWithMeal(@PathVariable int id) {
+        return null;
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createWithLocation(@RequestBody User user) {
         User created = super.create(user);
