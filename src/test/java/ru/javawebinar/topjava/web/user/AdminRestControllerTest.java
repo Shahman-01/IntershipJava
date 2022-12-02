@@ -20,76 +20,76 @@ import static ru.javawebinar.topjava.UserTestData.*;
 
 class AdminRestControllerTest extends AbstractControllerTest {
 
-    private static final String REST_URL = AdminRestController.REST_URL + '/';
+	private static final String REST_URL = AdminRestController.REST_URL + '/';
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @Test
-    void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID))
-                .andExpect(status().isOk())
-                .andDo(print())
-                // https://jira.spring.io/browse/SPR-14472
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(USER_MATCHER.contentJson(admin));
-    }
+	@Test
+	void get() throws Exception {
+		perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID))
+				.andExpect(status().isOk())
+				.andDo(print())
+				// https://jira.spring.io/browse/SPR-14472
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andExpect(USER_MATCHER.contentJson(admin));
+	}
 
-    @Test
-    void getByEmail() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + "by-email?email=" + user.getEmail()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(USER_MATCHER.contentJson(user));
-    }
+	@Test
+	void getByEmail() throws Exception {
+		perform(MockMvcRequestBuilders.get(REST_URL + "by-email?email=" + user.getEmail()))
+				.andExpect(status().isOk())
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andExpect(USER_MATCHER.contentJson(user));
+	}
 
-    @Test
-    void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + USER_ID))
-                .andDo(print())
-                .andExpect(status().isNoContent());
-        assertThrows(NotFoundException.class, () -> userService.get(USER_ID));
-    }
+	@Test
+	void delete() throws Exception {
+		perform(MockMvcRequestBuilders.delete(REST_URL + USER_ID))
+				.andDo(print())
+				.andExpect(status().isNoContent());
+		assertThrows(NotFoundException.class, () -> userService.get(USER_ID));
+	}
 
-    @Test
-    void update() throws Exception {
-        User updated = UserTestData.getUpdated();
-        perform(MockMvcRequestBuilders.put(REST_URL + USER_ID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updated)))
-                .andExpect(status().isNoContent());
+	@Test
+	void update() throws Exception {
+		User updated = UserTestData.getUpdated();
+		perform(MockMvcRequestBuilders.put(REST_URL + USER_ID)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(JsonUtil.writeValue(updated)))
+				.andExpect(status().isNoContent());
 
-        USER_MATCHER.assertMatch(userService.get(USER_ID), updated);
-    }
+		USER_MATCHER.assertMatch(userService.get(USER_ID), updated);
+	}
 
-    @Test
-    void createWithLocation() throws Exception {
-        User newUser = UserTestData.getNew();
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newUser)))
-                .andExpect(status().isCreated());
+	@Test
+	void createWithLocation() throws Exception {
+		User newUser = UserTestData.getNew();
+		ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(JsonUtil.writeValue(newUser)))
+				.andExpect(status().isCreated());
 
-        User created = USER_MATCHER.readFromJson(action);
-        int newId = created.id();
-        newUser.setId(newId);
-        USER_MATCHER.assertMatch(created, newUser);
-        USER_MATCHER.assertMatch(userService.get(newId), newUser);
-    }
+		User created = USER_MATCHER.readFromJson(action);
+		int newId = created.id();
+		newUser.setId(newId);
+		USER_MATCHER.assertMatch(created, newUser);
+		USER_MATCHER.assertMatch(userService.get(newId), newUser);
+	}
 
-    @Test
-    void getAll() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(USER_MATCHER.contentJson(admin, guest, user));
-    }
+	@Test
+	void getAll() throws Exception {
+		perform(MockMvcRequestBuilders.get(REST_URL))
+				.andExpect(status().isOk())
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andExpect(USER_MATCHER.contentJson(admin, guest, user));
+	}
 
-    @Test
-    void getWithMeal() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(USER_MATCHER.contentJson(admin));
-    }
+	@Test
+	void getWithMeal() throws Exception {
+		perform(MockMvcRequestBuilders.get(REST_URL))
+				.andExpect(status().isOk())
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andExpect(USER_MATCHER.contentJson(admin));
+	}
 }
