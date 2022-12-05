@@ -1,32 +1,21 @@
 package ru.javawebinar.topjava.web;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ResourceControllerTest {
-
-	private static HttpURLConnection con;
-
-	@BeforeAll
-	static void connection() throws IOException {
-		URL url = new URL("http://localhost:8080/topjava/resources/css/style.css");
-		con = (HttpURLConnection) url.openConnection();
-		con.setRequestMethod("GET");
-		con.connect();
-	}
+public class ResourceControllerTest extends AbstractControllerTest {
 
 	@Test
-	void checkStatus() throws IOException {
-		Assertions.assertEquals(con.getResponseCode(), 200);
-	}
+	void resources() throws Exception {
+		perform(get("/resources/css/style.css"))
+				.andDo(print())
+				.andExpect(content().contentTypeCompatibleWith(MediaType.valueOf("text/css")))
+				.andExpect(status().isOk());
 
-	@Test
-	void checkContentType() {
-		Assertions.assertEquals(con.getContentType(), "text/css;charset=UTF-8");
 	}
 }
