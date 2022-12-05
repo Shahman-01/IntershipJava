@@ -28,12 +28,6 @@ public class AdminRestController extends AbstractUserController {
         return super.get(id);
     }
 
-
-    @GetMapping("/{id}/with-meals")
-    public User getWithMeal(@PathVariable int id) {
-        return super.getWithMeal(id);
-    }
-
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createWithLocation(@RequestBody User user) {
         User created = super.create(user);
@@ -61,5 +55,10 @@ public class AdminRestController extends AbstractUserController {
     @GetMapping("/by-email")
     public User getByMail(@RequestParam String email) {
         return super.getByMail(email);
+    }
+
+    @GetMapping("/{id}/with-meals")
+    public User getWithMeals(@PathVariable int id) {
+        return super.getWithMeals(id);
     }
 }

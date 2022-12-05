@@ -8,14 +8,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ResourceControllerTest extends AbstractControllerTest {
+class ResourceControllerTest extends AbstractControllerTest {
 
-	@Test
-	void resources() throws Exception {
-		perform(get("/resources/css/style.css"))
-				.andDo(print())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.valueOf("text/css")))
-				.andExpect(status().isOk());
-
-	}
+    @Test
+    void resources() throws Exception {
+        perform(get("/resources/css/style.css"))
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.valueOf("text/css")))
+                .andExpect(status().isOk());
+    }
 }

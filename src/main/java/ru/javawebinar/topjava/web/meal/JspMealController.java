@@ -35,7 +35,7 @@ public class JspMealController extends AbstractMealController {
 
     @GetMapping("/create")
     public String create(Model model) {
-        model.addAttribute("meal", new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS), "", 1000));
+        model.addAttribute("meal", new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000));
         return "mealForm";
     }
 
@@ -59,10 +59,7 @@ public class JspMealController extends AbstractMealController {
         LocalDate endDate = parseLocalDate(request.getParameter("endDate"));
         LocalTime startTime = parseLocalTime(request.getParameter("startTime"));
         LocalTime endTime = parseLocalTime(request.getParameter("endTime"));
-
-        LocalDateTime startDateTime = startTime.atDate(startDate);
-        LocalDateTime endDateTime = endTime.atDate(endDate);
-        model.addAttribute("meals", super.getBetween(startDateTime, endDateTime));
+        model.addAttribute("meals", super.getBetween(startDate, startTime, endDate, endTime));
         return "meals";
     }
 

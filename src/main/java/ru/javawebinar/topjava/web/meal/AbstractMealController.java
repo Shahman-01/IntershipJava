@@ -10,7 +10,8 @@ import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.web.SecurityUtil;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
@@ -60,11 +61,12 @@ public abstract class AbstractMealController {
      * <li>by time for every date</li>
      * </ol>
      */
-    public List<MealTo> getBetween(@Nullable LocalDateTime startDateTime, @Nullable LocalDateTime endDateTime) {
+    public List<MealTo> getBetween(@Nullable LocalDate startDate, @Nullable LocalTime startTime,
+                                            @Nullable LocalDate endDate, @Nullable LocalTime endTime) {
         int userId = SecurityUtil.authUserId();
-        log.info("getBetween dates({} - {}) time({} - {}) for user {}", startDateTime, endDateTime, userId);
+        log.info("getBetween dates({} - {}) time({} - {}) for user {}", startDate, endDate, startTime, endTime, userId);
 
-        List<Meal> mealsDateFiltered = service.getBetweenInclusive(startDateTime.toLocalDate(), endDateTime.toLocalDate(), userId);
-        return MealsUtil.getFilteredTos(mealsDateFiltered, SecurityUtil.authUserCaloriesPerDay(), startDateTime.toLocalTime(), endDateTime.toLocalTime());
+        List<Meal> mealsDateFiltered = service.getBetweenInclusive(startDate, endDate, userId);
+        return MealsUtil.getFilteredTos(mealsDateFiltered, SecurityUtil.authUserCaloriesPerDay(), startTime, endTime);
     }
 }
