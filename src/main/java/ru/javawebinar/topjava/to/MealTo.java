@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.to;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class MealTo {
     private final Integer id;
@@ -42,6 +43,18 @@ public class MealTo {
 
     public boolean isExcess() {
         return excess;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MealTo mealTo)) return false;
+        return calories == mealTo.calories && excess == mealTo.excess && id.equals(mealTo.id) && dateTime.equals(mealTo.dateTime) && description.equals(mealTo.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, dateTime, description, calories, excess);
     }
 
     @Override
