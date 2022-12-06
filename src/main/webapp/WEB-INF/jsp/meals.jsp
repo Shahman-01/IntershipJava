@@ -60,5 +60,8 @@
     </table>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
+<%--<script src="resources/js/topjava.ajax.js"></script>--%>
+<script src="resources/js/topjava.users.js"></script>
+<script src="resources/js/topjava.common.js"></script>
 </body>
 </html>
