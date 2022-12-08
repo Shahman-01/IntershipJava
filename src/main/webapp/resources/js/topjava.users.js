@@ -7,7 +7,6 @@ const ctx = {
 
 // $(document).ready(function () {
 $(function () {
-    alert("hello");
     makeEditable(
         $("#datatable").DataTable({
             "paging": false,

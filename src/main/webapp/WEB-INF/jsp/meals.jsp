@@ -27,11 +27,11 @@
             <dt><spring:message code="meal.endTime"/>:</dt>
             <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
         </dl>
-        <button type="submit"><spring:message code="meal.filter"/></button>
+        <button type="submit" class="btn btn-primary ml-3"><spring:message code="meal.filter"/></button>
     </form>
     <hr>
     <div>
-        <button class="btn btn-outline-success" data-toggle="modal" data-target="#modal"><spring:message code="meal.add"/></button>
+        <button class="btn btn-outline-success ml-3" data-toggle="modal" data-target="#modal"><spring:message code="meal.add"/></button>
     </div>
 
     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
@@ -87,13 +87,12 @@
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
                 <td><a href="meals/update?id=${meal.id}"><spring:message code="common.update"/></a></td>
-                <td><a href="meals/delete?id=${meal.id}"><spring:message code="common.delete"/></a></td>
+                <td><a href="meals/delete?id=${meal.id}" id="detailsForm"><spring:message code="common.delete"/></a></td>
             </tr>
         </c:forEach>
     </table>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
-<%--<script src="resources/js/topjava.ajax.js"></script>--%>
 <script src="resources/js/topjava.users.js"></script>
 <script src="resources/js/topjava.common.js"></script>
 </body>
