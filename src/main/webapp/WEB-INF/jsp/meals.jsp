@@ -30,7 +30,40 @@
         <button type="submit"><spring:message code="meal.filter"/></button>
     </form>
     <hr>
-    <a href="meals/create"><spring:message code="meal.add"/></a>
+    <div>
+        <button class="btn btn-outline-success" data-toggle="modal" data-target="#modal"><spring:message code="meal.add"/></button>
+    </div>
+
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+<%--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--%>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="meals">
+                        <input type="hidden" name="id" value="${meal.id}">
+                        <dl>
+                            <dt><spring:message code="meal.dateTime"/>:</dt>
+                            <dd><input type="datetime-local" value="${meal.dateTime}" name="dateTime" required></dd>
+                        </dl>
+                        <dl>
+                            <dt><spring:message code="meal.description"/>:</dt>
+                            <dd><input type="text" value="${meal.description}" size=40 name="description" required></dd>
+                        </dl>
+                        <dl>
+                            <dt><spring:message code="meal.calories"/>:</dt>
+                            <dd><input type="number" value="${meal.calories}" name="calories" required></dd>
+                        </dl>
+                        <button type="submit" class="btn btn-primary"><spring:message code="common.save"/></button>
+                        <button onclick="window.history.back()" type="button" class="btn btn-secondary"><spring:message code="common.cancel"/></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<%--    <a href="meals/create"><spring:message code="meal.add"/></a>--%>
     <hr>
     <table id="datatable" class="table table-striped">
         <thead>
